@@ -1,0 +1,29 @@
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(9, OUTPUT);
+}
+
+void loop() {
+  unsigned int receivedValue = 0;
+  if (Serial.available()) {
+
+    byte highByte = Serial.read();
+    byte lowByte = Serial.read();
+    receivedValue = (highByte << 8) | lowByte;
+    Serial.print("Received Hex Value: 0x");
+    Serial.println(receivedValue, HEX);
+  }
+
+  if (receivedValue == 0xA190) {
+    digitalWrite(9, HIGH);
+  } 
+  else if (receivedValue == 0xA145) {
+    digitalWrite(9, LOW);
+  } 
+  else {
+    delay(10000);
+  }
+
+  receivedValue = 0;
+}
